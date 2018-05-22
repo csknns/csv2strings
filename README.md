@@ -10,6 +10,7 @@ Simply download the package and run:
 Then run:
 ```.build/debug/csv2strings translations.csv```
 
-##Author
+## Author
+Christos Koninis, christos.koninis@gmail.com
 
 Made under an hour because every tool I tried did not work
