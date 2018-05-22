@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CSVImporter",
+        "repositoryURL": "https://github.com/Flinesoft/CSVImporter.git",
+        "state": {
+          "branch": null,
+          "revision": "9b97c80a126498371f451617ae5339b0f65a7d08",
+          "version": "1.9.0"
+        }
+      },
+      {
+        "package": "HandySwift",
+        "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
+        "state": {
+          "branch": null,
+          "revision": "45b906a7fdf483d1db6f6c1a1974cdd5f02165f3",
+          "version": "2.6.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
