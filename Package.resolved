@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Flinesoft/CSVImporter.git",
         "state": {
           "branch": null,
-          "revision": "9b97c80a126498371f451617ae5339b0f65a7d08",
-          "version": "1.9.0"
+          "revision": "63755302a3d3ad81d62607dba4a97f06a62eab1b",
+          "version": "1.9.1"
         }
       },
       {
@@ -15,8 +15,26 @@
         "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
         "state": {
           "branch": null,
-          "revision": "45b906a7fdf483d1db6f6c1a1974cdd5f02165f3",
-          "version": "2.6.0"
+          "revision": "f736ec0ab264269cd4df91d6a685b4c78292cd76",
+          "version": "2.8.0"
+        }
+      },
+      {
+        "package": "Nimble",
+        "repositoryURL": "https://github.com/Quick/Nimble.git",
+        "state": {
+          "branch": null,
+          "revision": "e9d769113660769a4d9dd3afb855562c0b7ae7b0",
+          "version": "7.3.4"
+        }
+      },
+      {
+        "package": "Quick",
+        "repositoryURL": "https://github.com/Quick/Quick.git",
+        "state": {
+          "branch": null,
+          "revision": "f2b5a06440ea87eba1a167cab37bf6496646c52e",
+          "version": "1.3.4"
         }
       }
     ]
