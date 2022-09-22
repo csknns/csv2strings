@@ -11,13 +11,15 @@ import Foundation
 ///  The output files will be in UTF-8 encoding.
 final public class StringsConvertor {
     private let CSVReader: CSVReader
+    private let fileWriter: FileWriter
 
-    init(CSVReader: CSVReader) {
+    init(CSVReader: CSVReader, fileWriter: FileWriter) {
         self.CSVReader = CSVReader
+        self.fileWriter = fileWriter
     }
 
     public convenience init() {
-        self.init(CSVReader: CSVImporterImpl())
+        self.init(CSVReader: CSVImporterImpl(), fileWriter: FileWriterImpl())
     }
 
     public func toStringsFile(_ csvFile: String) {
@@ -45,7 +47,7 @@ final public class StringsConvertor {
 
         print("writing \(importedRecords.count) translations to \(stringsFileURL)")
 
-        saveData(stringsFileData, toFile: stringsFileURL)
+        fileWriter.saveData(stringsFileData, toFile: stringsFileURL)
     }
 
     public func toCSVFile(_ stringsFile: String) {
@@ -108,15 +110,6 @@ final public class StringsConvertor {
 
         print("writing \(translationsCounter) translations to \(csvFileURL)")
 
-        saveData(stringsFileData, toFile: csvFileURL)
-    }
-
-    private func saveData(_ stringsFileData: String, toFile csvFileURL: URL) {
-        do {
-            try stringsFileData.write(to: csvFileURL, atomically: true, encoding: .utf8)
-        }
-        catch {
-            print("Unexpected error: \(error.localizedDescription)")
-        }
+        fileWriter.saveData(stringsFileData, toFile: csvFileURL)
     }
 }
