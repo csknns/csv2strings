@@ -1,33 +1,23 @@
-//import CSV
 import Foundation
-import CSVImporter
+import os.log
+import libcsv2strings
 
 let arguments = CommandLine.arguments
 
-let group = DispatchGroup()
+private func printUsage() {
+    print("USAGE: \(arguments[0]) [<csv file> | <strings file>]")
+}
 
 if arguments.count != 2 {
-    print("USAGE: \(arguments[0]) <csv file>")
+    printUsage()
 } else {
-    let cvsFile = arguments[1]
-    let stringsFileURL = URL(fileURLWithPath: cvsFile).deletingPathExtension().appendingPathExtension("strings")
+    let file = arguments[1]
 
-    print("reading form \(cvsFile)")
-
-    let importer = CSVImporter<[String]>(path: cvsFile)
-    let importedRecords = importer.importRecords { $0 }
-
-    var stringsFileData : String = ""
-    for record in importedRecords {
-        stringsFileData.append("\"\(record[0])\" = \"\(record[1])\";\n")
-    }
-
-    print("writing \(importedRecords.count) translations to \(stringsFileURL)")
-    // write strings file
-    do {
-        try stringsFileData.write(to: stringsFileURL, atomically: true, encoding: .utf16)
-    }
-    catch {
-        print("Unexpected error: \(error).")
+    if file.hasSuffix("csv") {
+        StringsConvertor().toStringsFile(file)
+    } else if file.hasSuffix("strings") {
+        StringsConvertor().toCSVFile(file)
+    } else {
+        printUsage()
     }
 }

@@ -1,16 +1,20 @@
 # csv2strings
 
-A simple command line utility to convert a csv file (first column the translation key and second column the translation value), to Apple's .strings file.
+A simple command line utility to convert an Apple's strings file to and from a csv file, with first column the translation key and second column the translation value.
 
 # Usage
 
+## Convert from strings to csv
 Simply download the package and run:
-```swift build```
 
-Then run:
-```.build/debug/csv2strings translations.csv```
+```swift run csv2strings Localizable.strings```
 
-## Author
+It will create an `Localizable.strings.csv` with 3 columns:
+`key, translation, comments`
+
+## Convert from csv to strings
+```swift run csv2strings Localizable.csv```
+
+##Author
+
 Christos Koninis, christos.koninis@gmail.com
-
-Made under an hour because every tool I tried did not work
