@@ -1,17 +1,31 @@
 import Foundation
-import CSVImporter
-import os.log
 
+///
+///  Converts to and from Apple's strings files and CSV files with comma delimiter.
+///
+///   The resulting CSV file will have 3 columns like this:
+///  ```
+///     "translation key","translated message","/* developer comments */"
+///  ```
+///  Developer comments are always quoted because we need to escape the comma "," and/or double quotes ".
+///  The output files will be in UTF-8 encoding.
 final public class StringsConvertor {
-    public init() {}
+    private let CSVReader: CSVReader
+
+    init(CSVReader: CSVReader) {
+        self.CSVReader = CSVReader
+    }
+
+    public convenience init() {
+        self.init(CSVReader: CSVImporterImpl())
+    }
 
     public func toStringsFile(_ csvFile: String) {
         let stringsFileURL = URL(fileURLWithPath: csvFile).deletingPathExtension().appendingPathExtension("strings")
 
         print("reading form \(csvFile)")
 
-        let importer = CSVImporter<[String]>(path: csvFile, encoding: .utf8)
-        let importedRecords = importer.importRecords { $0 }
+        let importedRecords = CSVReader.readCSVAtPath(path: csvFile)
 
         var stringsFileData : String = ""
         for record in importedRecords {
@@ -30,12 +44,8 @@ final public class StringsConvertor {
         }
 
         print("writing \(importedRecords.count) translations to \(stringsFileURL)")
-        do {
-            try stringsFileData.write(to: stringsFileURL, atomically: true, encoding: .utf8)
-        }
-        catch {
-            print("Unexpected error: \(error.localizedDescription)")
-        }
+
+        saveData(stringsFileData, toFile: stringsFileURL)
     }
 
     public func toCSVFile(_ stringsFile: String) {
@@ -44,6 +54,8 @@ final public class StringsConvertor {
 
         print("reading form \(stringsFile)")
 
+        // Not the most effient way to read the whole file but
+        // not a problem for the expected sizes this tool is expected to handle
         guard let contents = try? String(contentsOfFile: stringsFile) else {
             print("could not read any data")
             return
@@ -64,6 +76,7 @@ final public class StringsConvertor {
     """
         var previousComment = ""
         var lineCounter = 0
+        var translationsCounter = 0
         for line in contents.components(separatedBy: CharacterSet.newlines).map({ $0.trimmingCharacters(in: .whitespaces) }) {
             lineCounter += 1
             if let commentRange = line.range(of: "\(comments)", options: .regularExpression) {
@@ -86,14 +99,19 @@ final public class StringsConvertor {
                         stringsFileData.append("\(key)\(delimiter)\(delimiter)\(previousComment)\n")
                     }
                 }
+                translationsCounter += 1
                 previousComment = ""
             } else if !line.isBlank {
                 print("skipping '\(line)' at line \(lineCounter) ")
             }
         }
 
-        print("writing to \(csvFileURL)")
+        print("writing \(translationsCounter) translations to \(csvFileURL)")
 
+        saveData(stringsFileData, toFile: csvFileURL)
+    }
+
+    private func saveData(_ stringsFileData: String, toFile csvFileURL: URL) {
         do {
             try stringsFileData.write(to: csvFileURL, atomically: true, encoding: .utf8)
         }
@@ -101,5 +119,4 @@ final public class StringsConvertor {
             print("Unexpected error: \(error.localizedDescription)")
         }
     }
-
 }
