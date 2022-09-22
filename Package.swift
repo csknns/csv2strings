@@ -23,6 +23,8 @@ let package = Package(
         .target(
             name: "libcsv2strings",
             dependencies: ["CSVImporter"]),
+        .testTarget(name: "libcsv2stringsTests",
+                    dependencies: ["libcsv2strings"])
     ],
     swiftLanguageVersions: [.v5]
 )
