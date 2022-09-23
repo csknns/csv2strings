@@ -6,12 +6,15 @@ import PackageDescription
 let package = Package(
     name: "csv2strings",
     platforms: [
-        .macOS(.v11)
+        .macOS(.v11), .iOS(.v9)
     ],
     products: [
         .executable(
             name: "csv2strings",
             targets: ["csv2strings"]),
+        .library(
+            name: "libcsv2strings",
+            targets: ["libcsv2strings"]),
     ],
     dependencies: [
         .package(url: "https://github.com/Flinesoft/CSVImporter.git", .upToNextMajor(from: "1.8.0"))
