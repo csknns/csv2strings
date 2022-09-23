@@ -27,7 +27,7 @@ final class Libcsv2stringsTests: XCTestCase {
     private class CSVReaderMock: CSVReader {
         let recordsForPath: [String: [[String]]]
 
-        init(path: String, records: [[String]]) {
+        init(path: String = "", records: [[String]] = [[]]) {
             recordsForPath = [path: records]
         }
 
@@ -36,6 +36,21 @@ final class Libcsv2stringsTests: XCTestCase {
         }
     }
 
+    private class FileReaderMock: FileReader {
+        var textForFile: [String: String]
+
+        init(mockedText: String = "", forFileAt path: String = "") {
+            textForFile = [path: mockedText]
+        }
+
+        func readTextFromFile(path: String) throws -> String {
+            guard let text = textForFile[path] else {
+                throw NSError()
+            }
+
+            return text
+        }
+    }
 
     func test_CSVFileIsCovertedToStringsFile() {
         // Given
@@ -45,11 +60,29 @@ final class Libcsv2stringsTests: XCTestCase {
         let fileWriterSpy = FileWriterSpy()
 
         // When
-        let convertor = StringsConvertor(CSVReader: aCSVReaderMock, fileWriter: fileWriterSpy)
+        let convertor = StringsConvertor(CSVReader: aCSVReaderMock,
+                                         fileWriter: fileWriterSpy,
+                                         fileReader: FileReaderMock())
         convertor.toStringsFile(csvFilePath)
 
         // Then
         XCTAssertEqual(fileWriterSpy.data, Resources.stringsFile)
+    }
+
+    func test_StringFileIsCovertedToCSVFile() {
+        // Given
+        let stringsFilePath = "path/to/file.strings"
+        let fileWriterSpy = FileWriterSpy()
+        let fileReaderMock = FileReaderMock(mockedText: Resources.stringsFile, forFileAt: stringsFilePath)
+
+        // When
+        let convertor = StringsConvertor(CSVReader: CSVReaderMock(),
+                                         fileWriter: fileWriterSpy,
+                                         fileReader: fileReaderMock)
+        convertor.toCSVFile(stringsFilePath)
+
+        // Then
+        XCTAssertEqual(fileWriterSpy.data, Resources.CSVFile)
     }
 }
 
@@ -1174,5 +1207,6 @@ fileprivate enum Resources {
 "Yesterday","काल्य","/* This label is meant to signify the section containing a group of items from the past 24 hours. */"
 "Your Rights","अपने के अधिकार","/* Your Rights settings section title */"
 "YouTube","YouTube","/* Tile title for YouTube */"
+
 """
 }

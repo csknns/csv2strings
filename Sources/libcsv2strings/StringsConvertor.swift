@@ -34,6 +34,7 @@ final public class StringsConvertor {
 
         var stringsFileData : String = ""
         for record in importedRecords {
+            if record.count != 3 { continue }
             var commentLine = record[2]
             if !commentLine.isEmpty {
                 // drop the first and last quotes if needed
