@@ -12,14 +12,17 @@ import Foundation
 final public class StringsConvertor {
     private let CSVReader: CSVReader
     private let fileWriter: FileWriter
+    private let fileReader: FileReader
 
-    init(CSVReader: CSVReader, fileWriter: FileWriter) {
+    init(CSVReader: CSVReader, fileWriter: FileWriter, fileReader: FileReader) {
         self.CSVReader = CSVReader
         self.fileWriter = fileWriter
+        self.fileReader = fileReader
     }
 
     public convenience init() {
-        self.init(CSVReader: CSVImporterImpl(), fileWriter: FileWriterImpl())
+        let persistenceLayer = PersistenceLayer()
+        self.init(CSVReader: CSVImporterImpl(), fileWriter: persistenceLayer, fileReader: persistenceLayer)
     }
 
     public func toStringsFile(_ csvFile: String) {
@@ -58,7 +61,7 @@ final public class StringsConvertor {
 
         // Not the most effient way to read the whole file but
         // not a problem for the expected sizes this tool is expected to handle
-        guard let contents = try? String(contentsOfFile: stringsFile) else {
+        guard let contents = try? fileReader.readTextFromFile(path: stringsFile) else {
             print("could not read any data")
             return
         }

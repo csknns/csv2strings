@@ -14,8 +14,15 @@ protocol FileWriter {
     func saveData(_ stringsFileData: String, toFile path: URL)
 }
 
-/// Default implementation of `FileWriter`
-final class FileWriterImpl: FileWriter {
+/// Describes the functionality needed to persistently read data from a file
+protocol FileReader {
+
+    /// Reads Text data from a file.
+    func readTextFromFile(path: String) throws -> String
+}
+
+/// Default implementation of `FileWriter` and `FileReader`
+final class PersistenceLayer: FileWriter, FileReader {
 
     func saveData(_ stringsFileData: String, toFile path: URL) {
         do {
@@ -24,6 +31,10 @@ final class FileWriterImpl: FileWriter {
         catch {
             print("Unexpected error: \(error.localizedDescription)")
         }
+    }
+
+    func readTextFromFile(path: String) throws -> String {
+        return try String(contentsOfFile: path)
     }
 }
 
