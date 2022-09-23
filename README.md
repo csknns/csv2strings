@@ -15,6 +15,8 @@ It will create an `Localizable.strings.csv` with 3 columns:
 ## Convert from csv to strings
 ```swift run csv2strings Localizable.csv```
 
-##Author
+The CSV file must have 3 columns(`key, translation, comments`)
+
+## Author
 
 Christos Koninis, christos.koninis@gmail.com
