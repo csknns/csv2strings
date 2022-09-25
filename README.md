@@ -1,3 +1,5 @@
+![master workflow](https://github.com/csknns/csv2strings/actions/workflows/swift.yml/badge.svg
+)
 # csv2strings
 
 A simple command line utility to convert an Apple's strings file to and from a csv file, with first column the translation key and second column the translation value.
