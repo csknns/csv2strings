@@ -9,7 +9,7 @@ import Foundation
 ///  ```
 ///  Developer comments are always quoted because we need to escape the comma "," and/or double quotes ".
 ///  The output files will be in UTF-8 encoding.
-final public class StringsConvertor {
+public final class StringsConvertor {
     private let CSVReader: CSVReader
     private let fileWriter: FileWriter
     private let fileReader: FileReader
@@ -89,14 +89,18 @@ public struct StringsFile {
 }
 
 /// Parses a Apple's strings file to a `StringsFile` model
-public final class StringsFileParser {
+final public class StringsFileParser {
     private(set) var stringsFileData: String
 
-    init(stringsFileData: String) {
+    public init(stringsFileData: String) {
         self.stringsFileData = stringsFileData
     }
 
-    init?(stringsFilePath: String, fileReader: FileReader = PersistenceLayer()) {
+    public convenience init?(stringsFilePath: String) {
+        self.init(stringsFilePath: stringsFilePath, fileReader: PersistenceLayer())
+    }
+
+    init?(stringsFilePath: String, fileReader: FileReader) {
         print("reading form \(stringsFilePath)")
 
         // Not the most effient way to read the whole file but
@@ -109,7 +113,7 @@ public final class StringsFileParser {
     }
 
     /// Parses a Apple's strings file to a `StringsFile` model
-    func parse() -> StringsFile {
+    public func parse() -> StringsFile {
         var stringsFileEntries: [StringsFile.Translation] = []
 
         let quotedString =
