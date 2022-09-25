@@ -88,6 +88,23 @@ final class Libcsv2stringsTests: XCTestCase {
 
 
 fileprivate enum Resources {
+    static let stringsFile2 =
+    """
+"-" = "-";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+
+"""
+
+    static let CSVFile2 =
+    """
+"-","-","/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */"
+"+","+","/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */"
+
+"""
+
     static let stringsFile =
     """
 /* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
