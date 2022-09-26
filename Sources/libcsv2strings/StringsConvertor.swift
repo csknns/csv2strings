@@ -78,13 +78,13 @@ public final class StringsConvertor {
 
 /// Top level model of a Apple's strings file
 public struct StringsFile {
-    let entries: [Translation]
+    public let entries: [Translation]
 
     /// Model of a strings file translation item
     public struct Translation {
-        let translationKey: String
-        let translation: String
-        let comment: String?
+        public let translationKey: String
+        public let translation: String
+        public let comment: String?
     }
 }
 
